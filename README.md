@@ -1,5 +1,22 @@
+## Azure IoT DPS Symmetric Key Generator
 
-# Contributing
+Helper tool to create master and device GroupSAS keys.
+
+### Install
+
+```
+npm i -g dps-keygen
+```
+
+### Usage
+
+dps-keygen is an interfactive tool. Simply run and execute.
+
+```
+dps-keygen
+```
+
+### Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
