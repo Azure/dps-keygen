@@ -5,7 +5,9 @@ Helper tool to create master and device GroupSAS keys.
 ### Install
 
 ```
-npm i -g dps-keygen
+git clone https://github.com/Azure/dps-keygen
+cd dps-keygen
+npm i -g
 ```
 
 ### Usage
