@@ -13,8 +13,15 @@ npm i -g dps-keygen
 dps-keygen is an interfactive tool. Simply run and execute.
 
 ```
-dps-keygen
+dps-keygen <master_key> <registration_id>
 ```
+
+The command above will create you a `device_key`.
+In order to create a connection string, find your binary under `bin/` folder.
+```
+dps_cstr <scope_id> <registration_id> <device_key>
+```
+
 
 ### Contributing
 
