@@ -82,7 +82,7 @@ function updateDevices() {
       SASKEY = computeDrivedSymmetricKey(MASTERKEY + "", REGID + "");
       SASKEY = urlencode(SASKEY);
 
-      var connstr = `http://192.168.0.1/PROCESS?SSID=${SSID}&PASS=${PASSWD}&PINCO=${PINCO}&SCOPEID=${SCOPEID}&REGID=${REGID}&AUTH=S&SASKEY=${SASKEY}`;
+      var connstr = `http://192.168.0.1/PROCESS?SSID=${SSID}&PASS=${PASSWD}&PINCO=${PINCO}&SCOPEID=${SCOPEID}&REGID=${REGID}&AUTH=S&SASKEY=${SASKEY}&HUM=1&MAG=1&GYRO=1&TEMP=1&PRES=1&ACCEL=1`;
 
       process.stdout.write('.');
       var doitCount = 0;
