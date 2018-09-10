@@ -68,13 +68,19 @@ function updateDevices() {
   var mxnetworks = [];
 
   function doconnect() {
-    if (mxnetworks.length == 0) return;
+    if (mxnetworks.length == 0) { if (RUN < 3) updateDevices(); else return; }
     var net = mxnetworks.pop();
+    if (!net) {
+      setTimeout(doconnect, 1000);
+      RUN++;
+      return;
+    }
     wifi.connect({ssid:net.ssid, password:""}, function(err) {
       console.log("network ssid:", net.ssid)
-      console.log(err ? ("Error: " + err) : "Updating..");
+      console.log("Updating..");
       if (err) {
-        process.exit();
+        setTimeout(doconnect, 1000);
+        RUN++;
       }
       var mac = net.bssid.split(':');
       var PINCO = mac[0].toUpperCase() + mac[1].toUpperCase();
