@@ -1,6 +1,11 @@
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+
+// hint on compile; copy the source code here and paste onto ->
+// azure-iot-sdk-c/provisioning_client/samples/prov_dev_client_ll_sample/prov_dev_client_ll_sample.c
+// compile the whole SDK with provisioning enabled
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -220,4 +225,3 @@ int main(int argc, char* argv[])
     IoTHub_Deinit();
     return 0;
 }
-
