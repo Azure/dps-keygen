@@ -12,7 +12,7 @@ const isBase64 = require('is-base64');
 const request  = require('request');
 const wifi     = require('node-wifi');
 
-var MASTERKEY = "", BASEREGID = "", SCOPEID = "", SSID = "", PASSWD = "";
+var MASTERKEY = "", BASEREGID = "", SCOPEID = "", SSID = "", PASSWD = "", PINCODE = null;
 var urlencode = encodeURIComponent;
 
 function computeDrivedSymmetricKey(masterKey, regId) {
@@ -27,7 +27,7 @@ async function main() {
 
   if (process.argv.length < 4) {
     console.log("Usage:");
-    console.log(colors.yellow("dps-keygen"), "<master-key>", "<registrationId>", "<option scope id>", "<opt ssid>", "<opt pass>");
+    console.log(colors.yellow("dps-keygen"), "<master-key>", "<deviceId>", "<option scope id>", "<opt ssid>", "<opt pass>", "<opt pincode>");
     process.exit(0);
   }
 
@@ -48,6 +48,7 @@ async function main() {
     SCOPEID = urlencode(process.argv[4]);
     SSID = urlencode(process.argv[5]);
     PASSWD = urlencode(process.argv[6]);
+    PINCODE = process.argv[7];
 
     updateDevices();
   } else {
@@ -76,15 +77,21 @@ function updateDevices() {
       return;
     }
     wifi.connect({ssid:net.ssid, password:""}, function(err) {
-      console.log("network ssid:", net.ssid)
-      console.log("Updating..");
+      var mac = net.bssid.split(':');
+      var PINCO = mac[mac.length - 2].toUpperCase() + mac[mac.length - 1].toUpperCase();
+      var REGID;
+      if (PINCODE == "ALL") {
+        console.log("network ssid:", net.ssid)
+        console.log("Updating..");
+        REGID = urlencode(BASEREGID + mac[mac.length - 2] + mac[mac.length - 1]);
+      } else {
+        if (PINCO != PINCODE) err = 1;
+        REGID = BASEREGID;
+      }
       if (err) {
         setTimeout(doconnect, 1000);
         RUN++;
       }
-      var mac = net.bssid.split(':');
-      var PINCO = mac[0].toUpperCase() + mac[1].toUpperCase();
-      var REGID = urlencode(BASEREGID + mac[mac.length - 2] + mac[mac.length - 1]);
       SASKEY = computeDrivedSymmetricKey(MASTERKEY + "", REGID + "");
       SASKEY = urlencode(SASKEY);
 
@@ -126,9 +133,7 @@ function updateDevices() {
           if (RUN == 1) {
             console.log("No MXCHIP broadcast was found. Have you reset them to AP mode?");
           }
-          process.exit(0);
         }
-        RUN++;
         doconnect();
       }
   });
