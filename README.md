@@ -1,13 +1,11 @@
 ## Azure IoT DPS Symmetric Key Generator
 
-Helper tool to create master and device GroupSAS keys.
+Helper tool to device SAS key and connection string.
 
 ### Install
 
 ```
-git clone https://github.com/Azure/dps-keygen
-cd dps-keygen
-npm i -g
+npm i -g dps-keygen
 ```
 
 ### Usage
@@ -15,15 +13,21 @@ npm i -g
 dps-keygen is an interfactive tool. Simply run and execute.
 
 ```
-dps-keygen <master_key> <registration_id>
+dps-keygen <Primary_Key(GroupSAS)> <device_id>
 ```
 
-The command above will create you a `device_key`.
-In order to create a connection string, find your binary under `bin/` folder.
+The command above will create you a `Primary Key(for device)`.
+In order to create a **connection string**, find your binary under `bin/` folder.
 ```
-dps_cstr <scope_id> <registration_id> <device_key>
+dps_cstr <scope_id> <device_id> <Primary Key(for device)>
 ```
 
+Alternatively, `dps-keygen` tool, lets you to 'over the air' configure an updated mxchip device.
+Below are the options to do that;
+
+```
+dps-keygen <Primary_Key(GroupSAS)> <device_id> <scope_id> <wifi ssid> <wifi pass> <pincode(given on the device LCD)>;
+```
 
 ### Contributing
 

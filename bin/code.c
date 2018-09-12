@@ -225,4 +225,3 @@ int main(int argc, char* argv[])
     IoTHub_Deinit();
     return 0;
 }
-
