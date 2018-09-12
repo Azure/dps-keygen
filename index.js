@@ -43,7 +43,7 @@ async function main() {
   console.log("MASTER-KEY:", MASTERKEY);
   console.log("BASE-DEVICE-ID:", BASEREGID);
 
-  if (process.argv.length == 7) {
+  if (process.argv.length >= 7) {
     console.log("Scanning Devices...");
     SCOPEID = urlencode(process.argv[4]);
     SSID = urlencode(process.argv[5]);
@@ -105,7 +105,11 @@ function updateDevices() {
             if (!error || doitCount != 0) {
               setTimeout(function() {
                 console.log("done! deviceid:", REGID);
-                doconnect();
+                if (PINCODE != "ALL") {
+                  doconnect();
+                } else {
+                  process.exit(0);
+                }
               }, 1000);
             } else {
               doitCount++;
