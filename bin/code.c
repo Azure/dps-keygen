@@ -125,7 +125,7 @@ static void register_device_callback(PROV_DEVICE_RESULT register_result, const c
                 device_id,
                 g_access_key);
             conn_str[len] = 0;
-            printf("Connection String:\n\033[21;33m %s \033[0m\n", conn_str);
+            printf("Connection String:\n%s=\n", conn_str);
         }
         else
         {
@@ -138,7 +138,7 @@ static void register_device_callback(PROV_DEVICE_RESULT register_result, const c
 int main(int argc, char* argv[])
 {
     if (argc < 4) {
-        printf("usage:\ndps_csgen <scope_id> <registration_id> <sas key>\n");
+        printf("usage:\ndps_csgen <scope_id> <device_id> <primary_key (groupSAS)>\n");
         return 0;
     }
 
