@@ -8,7 +8,7 @@ dps_cstr <scope_id> <device_id> <Primary Key(for device)>
 
 If you want to check the integrity of the binary file on terminal;
 ```
-SHASUM -a 256 dps_cstr.zip
+SHASUM -a 256 dps_cstr
 ```
 
 Output should be matching to the hash below.

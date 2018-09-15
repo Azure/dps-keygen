@@ -27,9 +27,9 @@ async function main() {
 
   if (process.argv.length < 4) {
     console.log("Usage:");
-    console.log(colors.bold("dps-keygen"), "<master-key>", "<deviceId>");
+    console.log(colors.bold("dps-keygen"), "<primary/secondary-key>", "<deviceId>");
     console.log("\nYou may also 'over the air' configure an updated mxchip device. Below are the options to do that");
-    console.log(colors.bold("dps-keygen"), "<master-key>", "<deviceId>", "<opt scope id>", "<opt ssid>", "<opt pass>", "<opt pincode>");
+    console.log(colors.bold("dps-keygen"), "<primary/secondary-key>", "<deviceId>", "<opt scope id>", "<opt ssid>", "<opt pass>", "<opt pincode>");
     process.exit(0);
   }
 

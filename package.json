@@ -1,6 +1,6 @@
 {
   "name": "dps-keygen",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Helper tool to create master and device GroupSAS keys.",
   "main": "index.js",
   "bin": {
@@ -10,6 +10,7 @@
     "azure",
     "dps",
     "saas",
+    "iot",
     "iot-central"
   ],
   "author": "Oguz Bastemur <oguz.bastemur@microsoft.com>",
