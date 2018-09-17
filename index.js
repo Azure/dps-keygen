@@ -126,7 +126,7 @@ function updateDevices() {
   // Scan networks
   wifi.scan(function(err, networks) {
       if (err) {
-          console.log(err);
+          console.log("Couldn't scan network. Try disconnecting from your current WiFi hotspot?");
       } else {
         for(var o in networks) {
           var network = networks[o];
