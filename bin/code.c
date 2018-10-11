@@ -21,10 +21,10 @@
 #include "iothub_client_options.h"
 #include "azure_prov_client/prov_device_ll_client.h"
 #include "azure_prov_client/prov_security_factory.h"
-#include "../../adapters/hsm_client_key.h"
 
 #include "iothubtransportmqtt.h"
 #include "azure_prov_client/prov_transport_mqtt_client.h"
+
 
 DEFINE_ENUM_STRINGS(PROV_DEVICE_RESULT, PROV_DEVICE_RESULT_VALUE);
 DEFINE_ENUM_STRINGS(PROV_DEVICE_REG_STATUS, PROV_DEVICE_REG_STATUS_VALUES);
@@ -145,7 +145,7 @@ int main(int argc, char* argv[])
     const char* scope_id = argv[1];
     const char* reg_id = argv[2];
     g_access_key = argv[3];
-    hsm_client_set_registration_name_and_key(reg_id, g_access_key);
+    prov_dev_set_symmetric_key_info(reg_id, g_access_key);
 
     bool traceOn = false;
 
