@@ -1,6 +1,6 @@
 {
   "name": "dps-keygen",
-  "version": "0.1.1",
+  "version": "0.1.4",
   "description": "Helper tool to create master and device GroupSAS keys.",
   "main": "index.js",
   "bin": {

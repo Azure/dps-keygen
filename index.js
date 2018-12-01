@@ -55,8 +55,7 @@ async function main() {
     updateDevices();
   } else {
     console.log("\nplease find the device key below.")
-    console.log(colors.magenta(computeDrivedSymmetricKey(MASTERKEY + "",
-          BASEREGID + "")), "\n");
+    console.log(computeDrivedSymmetricKey(MASTERKEY + "", BASEREGID + ""), "\n");
   }
 }
 

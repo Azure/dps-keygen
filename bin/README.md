@@ -2,7 +2,7 @@
 
 Clone the Azure IOT C SDK
 ```
-git clone -b dps_symm_key --recursive https://github.com/azure/azure-iot-sdk-c
+git clone --recursive https://github.com/azure/azure-iot-sdk-c
 ```
 
 Update `azure-iot-sdk-c/provisioning_client/samples/prov_dev_client_ll_sample/prov_dev_client_ll_sample.c`
