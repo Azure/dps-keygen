@@ -28,6 +28,8 @@ async function main() {
   if (process.argv.length < 4) {
     console.log("Usage:");
     console.log(colors.bold("dps-keygen"), "<primary/secondary-key>", "<deviceId>");
+    console.log("\nYou may also create a connection string using the device key and scope Id");
+    console.log(colors.bold("dps-keygen"), "<device key>", "<deviceId>", "<scope id>");
     console.log("\nYou may also 'over the air' configure an updated mxchip device. Below are the options to do that");
     console.log(colors.bold("dps-keygen"), "<primary/secondary-key>", "<deviceId>", "<opt scope id>", "<opt ssid>", "<opt pass>", "<opt pincode>");
     process.exit(0);
@@ -54,8 +56,18 @@ async function main() {
 
     updateDevices();
   } else {
-    console.log("\nplease find the device key below.")
-    console.log(computeDrivedSymmetricKey(MASTERKEY + "", BASEREGID + ""), "\n");
+    if (process.argv.length == 5) {
+      require('./dps.js').getConnectionString(BASEREGID, MASTERKEY, process.argv[4], false, function(error, connstr) {
+        if (error) {
+          console.log(error)
+        } else {
+          console.log("Connection String:\n\n", connstr)
+        }
+      })
+    } else {
+      console.log("\nplease find the device key below.")
+      console.log(computeDrivedSymmetricKey(MASTERKEY + "", BASEREGID + ""), "\n");
+    }
   }
 }
 

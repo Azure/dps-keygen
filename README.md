@@ -1,6 +1,6 @@
 ## Azure IoT DPS Symmetric Key Generator
 
-Helper tool to device SAS key and connection string.
+Helper tool to create device SAS key and connection string.
 
 ### Install
 
@@ -10,38 +10,41 @@ npm i -g dps-keygen
 
 ### Usage
 
-dps-keygen is a simple tool to create a self sufficient device authentication key from the `Primary/Secondary_Key(GroupSAS)` (check your Azure IoT account) and your choice of `device id` (no caps)
+dps-keygen is a simple tool to create a self sufficient device authentication key
+from `Primary/Secondary_Key(GroupSAS)` (check your Azure IoT account) and your choice of `device id` (no caps)
 
 ```
 dps-keygen <Primary/Secondary_Key(GroupSAS)> <device_id>
 ```
 
-The command above will create you a `Device key`.
+The command above will create you a `device key`. It won't require a net connection.
 
-#### Creating connection strings
+### Creating connection strings
 
-You will need the `Device key` that you have created using the `dps-keygen` solution mentioned above.
+You will need the `device key` that you have created using the `dps-keygen` solution mentioned above.
+You could also use the `device key` from Azure IoT Central's device `connect` screen.
 
-You will need a platform dependent `dps_cstr` binary under `bin/` folder of this repository to create a connection string.
+Get the `scope id` from `Azure IoT Central` and
 ```
-dps_cstr <scope_id> <device_id> <Device key>
+dps-keygen <device key> <device id> <scope_id>
 ```
 
-Once you run `dps_cstr`, it will try to register your device to your account through Azure IoT DPS service. In order to receive a connection string, please make sure that you have `associated the devices`
+Once you run the command above, it will try to register your device to your account through Azure IoT DPS service.
 
-i.e. If you are using this tool with `Azure IoT Central` please visit `Unassociated devices` tab on your account once you start `dps_cstr` tool and make sure you have associated it with the matching template.
+**P.S.** In order to receive a connection string, please make sure that you have `associated the device`.
+If you use this tool with `Azure IoT Central` please visit `Unassociated devices` tab on your account once you run the command above.
+**Make sure you have associated the device with the matching template.**
 
-#### Over the Air device configuration
+### Over the Air device configuration
 
-Alternatively, `dps-keygen` tool, lets you to 'over the air' configure an updated mxchip device. (2.0.0+)
-
-Below are the options to do that;
+Alternatively, `dps-keygen` tool lets you to 'over the air' configure an updated mxchip device. (2.0.0+)
 
 ```
 dps-keygen <Primary_Key(GroupSAS)> <device_id> <scope_id> <wifi ssid> <wifi pass> <pincode(given on the device LCD)>;
 ```
 
-Reminder; `pincode` is case sensitive. Alternatively you may set `ALL` to `pincode` to configure all the devices around at once. If you do that, `device id` will be the prefix for the devices to be configured.
+Reminder; `pincode` is case sensitive. Alternatively you may set `ALL` to `pincode` to configure all the devices around at once.
+If you do that, `device id` will be the prefix for the devices to be configured.
 
 ### Contributing
 
