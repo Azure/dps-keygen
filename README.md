@@ -2,6 +2,11 @@
 
 Helper tool to create device SAS key and connection string.
 
+### Requirements
+
+node.js version 8+
+
+
 ### Install
 
 ```
