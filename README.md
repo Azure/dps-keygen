@@ -1,6 +1,6 @@
 ## Azure IoT DPS Symmetric Key Generator
 
-Helper tool to create device SAS key and connection string.
+Helper tool to create device SAS key and/or connection string.
 
 ### Requirements
 
@@ -15,41 +15,35 @@ npm i -g dps-keygen
 
 ### Usage
 
-dps-keygen is a simple tool to create a self sufficient device authentication key
-from `Primary/Secondary_Key(GroupSAS)` (check your Azure IoT account) and your choice of `device id` (no caps)
-
 ```
-dps-keygen <Primary/Secondary_Key(GroupSAS)> <device_id>
-```
+dps-keygen <args>
 
-The command above will create you a `device key`. It won't require a net connection.
-
-### Creating connection strings
-
-You will need the `device key` that you have created using the `dps-keygen` solution mentioned above.
-You could also use the `device key` from Azure IoT Central's device `connect` screen.
-
-Get the `scope id` from `Azure IoT Central` and
-```
-dps-keygen <device key> <device id> <scope_id>
+args:
+-di:<deviceId> : device id
+-dk:<deviceKey> : device primary or secondary key
+-mk:<masterKey> : admin primary or secondary key
+-si:<scopeId> : scope id
+-mr:<uri> : model repository uri
+-mc:<uri> : model capability uri. Leave blank if its value is similar to model rep. uri.
+-mi:<modelId> : model id
 ```
 
-Once you run the command above, it will try to register your device to your account through Azure IoT DPS service.
-
-**P.S.** In order to receive a connection string, please make sure that you have `associated the device`.
-If you use this tool with `Azure IoT Central` please visit `Unassociated devices` tab on your account once you run the command above.
-**Make sure you have associated the device with the matching template.**
-
-### Over the Air device configuration
-
-Alternatively, `dps-keygen` tool lets you to 'over the air' configure an updated mxchip device. (2.0.0+)
+### Example
 
 ```
-dps-keygen <Primary_Key(GroupSAS)> <device_id> <scope_id> <wifi ssid> <wifi pass> <pincode(given on the device LCD)>;
+dps-keygen -di:dev1 -dk:devicekeyhere -si:scopeidhere
 ```
 
-Reminder; `pincode` is case sensitive. Alternatively you may set `ALL` to `pincode` to configure all the devices around at once.
-If you do that, `device id` will be the prefix for the devices to be configured.
+### Calculating a device key from admin/master key
+
+This operation doesn't require an active connection. However, you will need the
+master/admin (primary/secondary) key at your presence.
+
+`Device Id` below is up to you. Make sure it's unique.
+
+```
+dps-keygen -mk:put_master_key_here -di:ie_dev1
+```
 
 ### Contributing
 
