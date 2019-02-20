@@ -12,14 +12,16 @@ function computeDrivedSymmetricKey(masterKey, regId) {
     .digest('base64');
 }
 
+var apiVersion = "2018-11-01";
+
 function loopAssign(data, client, args, deviceId, scopeId, deviceKey, callback) {
   var URI = `https://global.azure-devices-provisioning.net/\
-${scopeId}/registrations/${deviceId}/operations/${data.operationId}?api-version=2018-09-01-preview`;
+${scopeId}/registrations/${deviceId}/operations/${data.operationId}?api-version=${apiVersion}`;
   client.get(URI, args, function (data, response) {
         if (data.status == 'assigning') {
           setTimeout(function() {
             loopAssign(data, client, args, deviceId, scopeId, deviceKey, callback);
-          }, 2000);
+          }, 2500);
         } else if (data.status == "assigned") {
           var state = data.registrationState;
           var hub = state.assignedHub;
@@ -32,10 +34,10 @@ ${scopeId}/registrations/${deviceId}/operations/${data.operationId}?api-version=
 
 exports.EXPIRES = 30; // 30 mins
 
-exports.getConnectionString = function(deviceId, key, scopeId, isMasterKey, callback) {
+exports.getConnectionString = function(deviceId, key, scopeId, modelData, isMasterKey, callback) {
   var expires = parseInt((Date.now() + (exports.EXPIRES * 1000)) / 1000);
 
-  var deviceKey = isMasterKey ? computeDrivedSymmetricKey(key, "dev1") : key;
+  var deviceKey = isMasterKey ? computeDrivedSymmetricKey(key, deviceId) : key;
   var sr = `${scopeId}%2fregistrations%2f${deviceId}`;
   var sigNoEncode = computeDrivedSymmetricKey(deviceKey, `${sr}\n${expires}`)
   var sigEncoded = encodeURIComponent(sigNoEncode);
@@ -50,13 +52,21 @@ exports.getConnectionString = function(deviceId, key, scopeId, isMasterKey, call
       "Authorization" : `SharedAccessSignature sr=${sr}&sig=${sigEncoded}&se=${expires}&skn=registration`
     }
   };
+  if (modelData) {
+    args.data = JSON.parse(args.data);
+    args.data.data = modelData;
+    args.data = JSON.stringify(args.data)
+    apiVersion = "2019-01-15";
+  }
 
   var client = new Client();
-  client.put(`https://global.azure-devices-provisioning.net/${scopeId}/registrations/${deviceId}/register?api-version=2018-11-01`,
+  client.put(`https://global.azure-devices-provisioning.net/${scopeId}/registrations/${deviceId}/register?api-version=${apiVersion}`,
     args, function (data, response) {
       delete args.data
       if (!response.error && !data.errorCode) {
-        setTimeout(function() { loopAssign(data, client, args, deviceId, scopeId, deviceKey, callback) }, 2000);
+        setTimeout(function() {
+          loopAssign(data, client, args, deviceId, scopeId, deviceKey, callback);
+        }, 2500);
       } else {
         callback(response.error ? response.error : data);
       }
