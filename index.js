@@ -8,11 +8,6 @@ const colors   = require('colors');
 const crypto   = require('crypto');
 const fs       = require('fs');
 const path     = require('path');
-const isBase64 = require('is-base64');
-const request  = require('request');
-
-var MASTERKEY = "", BASEREGID = "", SCOPEID = "", SSID = "", PASSWD = "", PINCODE = null;
-var urlencode = encodeURIComponent;
 
 function computeDrivedSymmetricKey(masterKey, regId) {
   return crypto.createHmac('SHA256', Buffer.from(masterKey, 'base64'))
@@ -21,16 +16,16 @@ function computeDrivedSymmetricKey(masterKey, regId) {
 }
 
 function showUsage() {
-  console.log("Usage:");
-  console.log(colors.bold("dps-keygen"), "<args>");
-  console.log("\nargs:\n-di:<deviceId> : device id");
-  console.log("-dk:<deviceKey> : device primary or secondary key");
-  console.log("-mk:<masterKey> : admin primary or secondary key");
-  console.log("-si:<scopeId> : scope id");
-  console.log("-mr:<uri> : model repository uri");
-  console.log("-mc:<uri> : model capability uri. Leave blank if its value is similar to model rep. uri.");
-  console.log("-mi:<modelId> : model id")
-  console.log("\ni.e. => dps-keygen -di:dev1 -dk:devicekeyhere -si:scopeidhere");
+  console.log('Usage:');
+  console.log(colors.bold('dps-keygen'), '<args>');
+  console.log('\nargs:\n-di:<deviceId> : device id');
+  console.log('-dk:<deviceKey> : device primary or secondary key');
+  console.log('-mk:<masterKey> : admin primary or secondary key');
+  console.log('-si:<scopeId> : scope id');
+  console.log('-mr:<uri> : model repository uri');
+  console.log('-mc:<uri> : model capability uri. Leave blank if its value is similar to model rep. uri.');
+  console.log('-mi:<modelId> : model id');
+  console.log('\ni.e. => dps-keygen -di:dev1 -dk:devicekeyhere -si:scopeidhere');
 }
 
 async function main() {
@@ -43,18 +38,21 @@ async function main() {
   }
 
   var args = {
-    "-dk": 0,
-    "-mk": 0,
-    "-si": 0,
-    "-mi": 0,
-    "-mc": 0,
-    "-mr": 0,
-    "-di": 0
+    '-dk': 0,
+    '-mk': 0,
+    '-si': 0,
+    '-mi': 0,
+    '-mc': 0,
+    '-mr': 0,
+    '-di': 0
   };
 
   for (var i  = 1; i < process.argv.length; i++) {
     var arg = process.argv[i];
-    if (arg.startsWith("-")) {
+    if (arg.startsWith('-')) {
+      if (arg.startsWith('--')) {
+        arg = arg.substr(1);
+      }
       var st = arg.length > 3 ? arg.substr(0, 3) : 0;
       if (st && args.hasOwnProperty(st)) {
         args[st] = arg.substr(4, arg.length - 4);
@@ -62,50 +60,50 @@ async function main() {
     }
   }
 
-  if (args["-dk"] && args["-mk"]) {
-    console.error("ERROR: You can't use both master key and device key.")
+  if (args['-dk'] && args['-mk']) {
+    console.error('ERROR: You can\'t use both master key and device key.');
     process.exit(1);
-  } else if (!args["-dk"] && !args["-mk"]) {
-    console.error("ERROR: You haven't defined neither the master key or device key.")
+  } else if (!args['-dk'] && !args['-mk']) {
+    console.error('ERROR: You haven\'t defined neither the master key or device key.');
     process.exit(1);
   }
 
-  if (args["-mk"] && args["-di"] && !args["-si"]) {
-    console.log("\nplease find the device key below.")
-    console.log(computeDrivedSymmetricKey(args["-mk"] + "", args["-di"] + ""), "\n");
-  } else if (args["-si"] && args["-di"]) {
-    var key = args["-mk"] ? args["-mk"] : args["-dk"];
-    var master = args["-mk"] ? true : false;
+  if (args['-mk'] && args['-di'] && !args['-si']) {
+    console.log('\nplease find the device key below.');
+    console.log(computeDrivedSymmetricKey(args['-mk'] + '', args['-di'] + ''), '\n');
+  } else if (args['-si'] && args['-di']) {
+    var key = args['-mk'] ? args['-mk'] : args['-dk'];
+    var master = args['-mk'] ? true : false;
     var modelBlob = null;
     if (args['-mr']) {
       modelBlob = {
-        "__iot:interfaces": {
-          "ModelRepositoryUri" : args['-mr']
+        '__iot:interfaces': {
+          'ModelRepositoryUri' : args['-mr']
         }
       };
       if (args['-mc']) {
-        modelBlob["__iot:interfaces"].CapabilityModelUri = args['-mc'];
+        modelBlob['__iot:interfaces'].CapabilityModelUri = args['-mc'];
       } else {
-        modelBlob["__iot:interfaces"].CapabilityModelUri = args['-mr']
+        modelBlob['__iot:interfaces'].CapabilityModelUri = args['-mr'];
       }
     }
 
     if (args['-mi']) {
       if (modelBlob == null) {
-        modelBlob = {}
+        modelBlob = {};
       }
-      modelBlob["iotcModelId"] = args['-mi']
+      modelBlob['iotcModelId'] = args['-mi'];
     }
 
-    require('./dps.js').getConnectionString(args["-di"], key, args["-si"],
+    require('./dps.js').getConnectionString(args['-di'], key, args['-si'],
       modelBlob, master, function(error, connstr) {
-      if (error) {
-        console.log(error);
-        process.exit(1);
-      } else {
-        console.log("Connection String:\n\n", connstr)
-      }
-    })
+        if (error) {
+          console.log(error);
+          process.exit(1);
+        } else {
+          console.log('Connection String:\n\n', connstr);
+        }
+      });
   } else {
     showUsage();
     process.exit(1);

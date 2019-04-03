@@ -1,10 +1,13 @@
 {
   "name": "dps-keygen",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Helper tool to create master and device GroupSAS keys / create connection string",
   "main": "index.js",
   "bin": {
     "dps-keygen": "./index.js"
+  },
+  "scripts": {
+    "test": "eslint ./**/*.js"
   },
   "keywords": [
     "azure",
