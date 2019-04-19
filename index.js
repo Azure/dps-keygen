@@ -4,10 +4,10 @@
 //  Licensed under the MIT license.
 // ----------------------------------------------------------------------------
 
-const colors   = require('colors');
-const crypto   = require('crypto');
-const fs       = require('fs');
-const path     = require('path');
+const colors = require('colors');
+const crypto = require('crypto');
+const fs = require('fs');
+const path = require('path');
 
 function computeDrivedSymmetricKey(masterKey, regId) {
   return crypto.createHmac('SHA256', Buffer.from(masterKey, 'base64'))
@@ -47,7 +47,7 @@ async function main() {
     '-di': 0
   };
 
-  for (var i  = 1; i < process.argv.length; i++) {
+  for (var i = 1; i < process.argv.length; i++) {
     var arg = process.argv[i];
     if (arg.startsWith('-')) {
       if (arg.startsWith('--')) {
@@ -78,7 +78,7 @@ async function main() {
     if (args['-mr']) {
       modelBlob = {
         '__iot:interfaces': {
-          'ModelRepositoryUri' : args['-mr']
+          'ModelRepositoryUri': args['-mr']
         }
       };
       if (args['-mc']) {
@@ -96,12 +96,20 @@ async function main() {
     }
 
     require('./dps.js').getConnectionString(args['-di'], key, args['-si'],
-      modelBlob, master, function(error, connstr) {
+      modelBlob, master, function (error, connstr) {
         if (error) {
-          console.log(error);
+          // when the inputs are absurd, server may not respond
+          if (error instanceof Buffer) {
+            if (error.length == 0) {
+              error = 'empty response from server. check your credentials.';
+            } else {
+              error = error.toString('utf8');
+            }
+          }
+          console.log('Error:', error);
           process.exit(1);
         } else {
-          console.log('Connection String:\n\n', connstr);
+          console.log('Connection String:\n\n', connstr.toString());
         }
       });
   } else {
