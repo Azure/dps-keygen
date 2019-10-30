@@ -28,6 +28,8 @@ args:
 -mi:<modelId> : model id
 ```
 
+**Warning**: The suggested pattern to connect a device to IoT Central is via DPS. Devcies using PnP SDK and trying to connect with device connection strings could see unexpected behaviour. 
+
 ### Example
 
 ```
