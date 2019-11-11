@@ -39,11 +39,15 @@ async function assignWithRetry(provisioningClient: RegistrationClient): Promise<
                 reject();
             }
             try {
-                resolve(await promisify(provisioningClient.register.bind(provisioningClient))() as RegistrationResult);
+                let res = await promisify(provisioningClient.register.bind(provisioningClient))() as RegistrationResult;
+                if (!firstAttempt) {
+                    blue('Device has been approved!');
+                }
+                resolve(res);
             }
             catch (e) {
-                if (e.name && e.result) {
-                    if (e.name == 'ProvisioningRegistrationFailedError' && e.result.status === 'failed' && e.result.errorCode == 400209) {
+                if (e.name && e.result && e.result.registrationState) {
+                    if (e.name == 'ProvisioningRegistrationFailedError' && e.result.status === 'failed' && e.result.registrationState.errorCode == 400209) {
                         if (firstAttempt) {
                             blue('Device needs to be approved by application admin. We\'ll wait for up to two hours...');
                             firstAttempt = false;
