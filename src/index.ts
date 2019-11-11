@@ -81,7 +81,7 @@ yargs
         yargs.showHelpOnFail(true);
         log('Getting connection string ...');
         try {
-            result(await getConnectionString(args.scopeId as string, args.deviceId as string, keyType, key));
+            result(await getConnectionString(args.scopeId as string, args.deviceId as string, keyType, key, args.templateId ? args.templateId as string : undefined));
         }
         catch (ex) {
             if (ex.name && ex.result) {

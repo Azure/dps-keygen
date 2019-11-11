@@ -10,7 +10,7 @@ import { progress, blue } from "./cli";
 const DPS_ENDPOINT = 'global.azure-devices-provisioning.net';
 const REGISTRATION_TIMEOUT = 7200000;
 
-export async function getConnectionString(scopeId: string, deviceId: string, connectionType: ConnectionType, key: string): Promise<string> {
+export async function getConnectionString(scopeId: string, deviceId: string, connectionType: ConnectionType, key: string, templateId?: string): Promise<string> {
     let deviceKey: string;
 
     if (connectionType == ConnectionType.MASTER_KEY) {
@@ -20,6 +20,20 @@ export async function getConnectionString(scopeId: string, deviceId: string, con
         deviceKey = key;
     }
     const provisioningClient = ProvisioningDeviceClient.create(DPS_ENDPOINT, scopeId, new ProvisioningTransport(), new SymmetricKeySecurityClient(deviceId, deviceKey));
+    if (templateId && templateId.length > 0) {
+        let payload: any = {
+            iotcModelId: templateId
+        };
+        if (templateId.match(/^urn:[\S]+:[\S]+:[\d]+$/)) {
+            payload = {
+                '__iot:interfaces': {
+                    CapabilityModelId: templateId,
+                    CapabilityModel: {}
+                }
+            };
+        }
+        provisioningClient.setProvisioningPayload(payload);
+    }
     const res = await assignWithRetry(provisioningClient);
     if (res.status == 'assigned' && res.assignedHub) {
         return `HostName=${res.assignedHub};DeviceId=${res.deviceId};SharedAccessKey=${deviceKey}`
