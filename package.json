@@ -25,6 +25,9 @@
   },
   "license": "MIT",
   "dependencies": {
+    "azure-iot-provisioning-device": "^1.8.0-preview.1",
+    "azure-iot-provisioning-device-mqtt": "^1.8.0-preview.1",
+    "azure-iot-security-symmetric-key": "^1.8.0-preview.1",
     "chalk": "^2.4.2",
     "yargs": "^14.2.0"
   },
