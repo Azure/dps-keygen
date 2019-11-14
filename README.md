@@ -16,35 +16,74 @@ npm i -g dps-keygen
 ### Usage
 
 ```
-dps-keygen <args>
+> dps-keygen --help
 
-args:
--di:<deviceId> : device id
--dk:<deviceKey> : device primary or secondary key
--mk:<masterKey> : admin primary or secondary key
--si:<scopeId> : scope id
--mr:<uri> : model repository uri
--mc:<uri> : model capability uri. Leave blank if its value is similar to model rep. uri.
--mi:<modelId> : model id
-```
+Commands:
+  dps-keygen generate-device-key              Generate a device key from a master
+                                            key
+  dps-keygen get-connection-string [options]  Get IoT Hub connection string for
+                                            the device  [deprecated]
 
-### Example
-
-```
-dps-keygen -di:dev1 -dk:devicekeyhere -si:scopeidhere
+Options:
+  --version  Show version number                                       [boolean]
+  --help     Show help                                                 [boolean]
 ```
 
 ### Calculating a device key from admin/master key
 
-This operation doesn't require an active connection. However, you will need the
-master/admin (primary/secondary) key at your presence.
+Master/admin key can be found in the Administrator section of the IoTCentral application.
 
-`Device Id` below is up to you. Make sure it's unique.
+`DeviceId` must be unique.
 
 ```
-dps-keygen -mk:put_master_key_here -di:ie_dev1
+> dps-keygen generate-device-key
+
+Generate a device key from a master key
+
+Options:
+  --version       Show version number                                  [boolean]
+  --help          Show help                                            [boolean]
+  --key, -k       Master key for the application             [string] [required]
+  --deviceId, -d  Device Id                                  [string] [required]
+
 ```
 
+```
+> dps-keygen --key "<master-key>" --deviceId "<device id>"
+```
+
+### Getting IoTHub connection string [ <span style="color:red;">deprecated!!</span> ]
+
+This operation provisions a device to Azure IoTCentral and gives back the Azure IoTHub connection string the device is using to connect.
+If device is already provisioned the result is returned immediately.
+
+Passing a valid template ID, the operation provisions the new device with the right template association.
+If autoapproval is enabled result is returned when provisioning succeeds, otherwise it waits for approval to manually happen.
+
+<span style="color:black;background-color:yellow">
+This feature is deprecated and will be dismissed on <span style="color:red">Jan 31 2020.</span></br>
+IoTHub connection strings should not be used when connecting to Azure IoTCentral.</br>
+IoTCentral relies on Azure DPS (Device Provisioning Service) to manage connections.More details available <a href="https://docs.microsoft.com/en-us/azure/iot-central/core/concepts-connectivity">here.</a></span>
+
+```
+> dps-keygen get-connection-string --help
+
+Get IoT Hub connection string for the device [deprecated]
+
+Options:
+  --version         Show version number                                [boolean]
+  --help            Show help                                          [boolean]
+  --scopeId, -s     Application scope Id                     [string] [required]
+  --deviceId, -i    Device Id                                [string] [required]
+  --deviceKey, -d   Device key                                          [string]
+  --masterKey, -m   Master key                                          [string]
+  --templateId, -t  IoT Central template Id to associate device         [string]
+
+```
+
+```
+> dps-keygen get-connection-string --scopeId "<scopeId>" --deviceId "<deviceId>" [options]
+```
 ### Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a

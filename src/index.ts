@@ -24,7 +24,7 @@ yargs
         log('Generating device key...');
         result(generateDeviceKey(args.deviceId as string, args.key as string), 'Device key: ');
     })
-    .command('get-connection-string [options]', `Get IoT Hub connection string for the device [deprecated]`, (yargs) => {
+    .command('get-connection-string [options]', `Get IoT Hub connection string for the device ${warnAlertString('[deprecated]', false)}`, (yargs) => {
         yargs.option('scopeId', {
             alias: 's',
             demandOption: true,

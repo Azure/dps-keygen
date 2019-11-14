@@ -38,6 +38,6 @@ export function errorAlert(msg: string) {
 export function warnAlert(msg: string) {
     console.log(`${chalk.bgRedBright.white('WARN')} ${chalk.bgYellow.black(msg)}`);
 }
-export function warnAlertString(msg: string): string {
-    return `${chalk.bgRedBright.white('WARN')} ${chalk.bgYellow.black(msg)}`;
+export function warnAlertString(msg: string, prefix: boolean = true): string {
+    return `${prefix ? chalk.bgRedBright.white('WARN') : ''} ${chalk.bgYellow.black(msg)}`;
 }
