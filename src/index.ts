@@ -24,43 +24,45 @@ yargs
         log('Generating device key...');
         result(generateDeviceKey(args.deviceId as string, args.key as string), 'Device key: ');
     })
-    .command<CStringOptions>('get-connection-string [options]', `${warnAlertString('This feature is deprecated and will be dismissed on Jan 31 2020')}\n\
-    ${warnAlertString('IoTHub connection strings should not be used when connecting to Azure IoTCentral')}\n\
-    ${warnAlertString('IoTCentral relies on Azure DPS (Device Provisioning Service) to manage connections.')}\n\
-    ${warnAlertString('More details available here: https://docs.microsoft.com/en-us/azure/iot-central/core/concepts-connectivity')}\n\n\n\nGet IoT Hub connection string for the device`, {
-        scopeId: {
+    .command('get-connection-string [options]', `Get IoT Hub connection string for the device [deprecated]`, (yargs) => {
+        yargs.option('scopeId', {
             alias: 's',
             demandOption: true,
             type: 'string',
             desc: 'Application scope Id',
             nargs: 1
-        },
-        deviceId: {
-            alias: 'i',
-            demandOption: true,
-            type: 'string',
-            desc: 'Device Id',
-            nargs: 1
-        },
-        deviceKey: {
-            alias: 'd',
-            type: 'string',
-            desc: 'Device key',
-            nargs: 1
-        },
-        masterKey: {
-            alias: 'm',
-            type: 'string',
-            desc: 'Master key',
-            nargs: 1
-        },
-        templateId: {
-            alias: 't',
-            type: 'string',
-            desc: 'IoT Central template Id to associate device',
-            nargs: 1
-        }
-    }, async (args) => {
+        })
+            .option('deviceId', {
+                alias: 'i',
+                demandOption: true,
+                type: 'string',
+                desc: 'Device Id',
+                nargs: 1
+            })
+            .option('deviceKey', {
+                alias: 'd',
+                type: 'string',
+                desc: 'Device key',
+                nargs: 1
+            })
+            .option('masterKey', {
+                alias: 'm',
+                type: 'string',
+                desc: 'Master key',
+                nargs: 1
+            })
+            .option('templateId', {
+                alias: 't',
+                type: 'string',
+                desc: 'IoT Central template Id to associate device',
+                nargs: 1
+            })
+            .usage(`${warnAlertString('This feature is deprecated and will be dismissed on Jan 31 2020')}\n\
+            ${warnAlertString('IoTHub connection strings should not be used when connecting to Azure IoTCentral')}\n\
+            ${warnAlertString('IoTCentral relies on Azure DPS (Device Provisioning Service) to manage connections.')}\n\
+            ${warnAlertString('More details available here: https://docs.microsoft.com/en-us/azure/iot-central/core/concepts-connectivity')}\n\n\
+            Get IoT Hub connection string for the device [deprecated]`)
+    }, async (args: CStringOptions) => {
 
         let keyType = ConnectionType.MASTER_KEY;
         let key = args.masterKey as string;

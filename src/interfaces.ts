@@ -12,11 +12,10 @@ export interface GenKeyOptions {
 }
 
 export interface CStringOptions {
-    [x: string]: yargs.Options,
-    scopeId: yargs.Options,
-    deviceId: yargs.Options,
-    deviceKey: yargs.Options,
-    masterKey: yargs.Options,
-    templateId: yargs.Options,
+    scopeId: string,
+    deviceId: string,
+    deviceKey: string,
+    masterKey: string,
+    templateId: string,
 
 }
