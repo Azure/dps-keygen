@@ -30,3 +30,14 @@ export function error(msg: string) {
 export function progress(msg: string) {
     yellow(msg);
 }
+
+export function errorAlert(msg: string) {
+    console.log(chalk.bgRed(msg));
+}
+
+export function warnAlert(msg: string) {
+    console.log(`${chalk.bgRedBright.white('WARN')} ${chalk.bgYellow.black(msg)}`);
+}
+export function warnAlertString(msg: string): string {
+    return `${chalk.bgRedBright.white('WARN')} ${chalk.bgYellow.black(msg)}`;
+}

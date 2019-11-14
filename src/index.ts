@@ -1,7 +1,8 @@
+#!/usr/bin/env node
 import yargs from 'yargs';
 import { generateDeviceKey } from './generator';
 import { GenKeyOptions, CStringOptions, ConnectionType } from './interfaces';
-import { result, log, blue, error } from './cli';
+import { result, log, blue, error, warnAlert, warnAlertString } from './cli';
 import { getConnectionString } from './hub';
 
 yargs
@@ -23,7 +24,10 @@ yargs
         log('Generating device key...');
         result(generateDeviceKey(args.deviceId as string, args.key as string), 'Device key: ');
     })
-    .command<CStringOptions>('get-connection-string [options]', 'Get IoT Hub connection string for the device', {
+    .command<CStringOptions>('get-connection-string [options]', `${warnAlertString('This feature is deprecated and will be dismissed on Jan 31 2020')}\n\
+    ${warnAlertString('IoTHub connection strings should not be used when connecting to Azure IoTCentral')}\n\
+    ${warnAlertString('IoTCentral relies on Azure DPS (Device Provisioning Service) to manage connections.')}\n\
+    ${warnAlertString('More details available here: https://docs.microsoft.com/en-us/azure/iot-central/core/concepts-connectivity')}\n\n\n\nGet IoT Hub connection string for the device`, {
         scopeId: {
             alias: 's',
             demandOption: true,
@@ -57,6 +61,7 @@ yargs
             nargs: 1
         }
     }, async (args) => {
+
         let keyType = ConnectionType.MASTER_KEY;
         let key = args.masterKey as string;
         if ((args.scopeId as string).length != 11) {

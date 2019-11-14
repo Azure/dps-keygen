@@ -2,12 +2,11 @@
   "name": "dps-keygen",
   "version": "1.0.0-beta.1",
   "description": "Helper tool to create master and device GroupSAS keys / create connection string",
-  "main": "index.js",
+  "main": "dist/index.js",
   "bin": {
-    "dps-keygen": "./index.js"
+    "dps-keygen": "./dist/index.js"
   },
   "scripts": {
-    "test": "eslint ./**/*.js",
     "build": "tsc",
     "prepare": "npm run build"
   },
