@@ -63,7 +63,8 @@ If autoapproval is enabled result is returned when provisioning succeeds, otherw
 <span style="color:black;background-color:yellow">
 This feature is deprecated and will be dismissed on <span style="color:red">Jan 31 2020.</span></br>
 IoTHub connection strings should not be used when connecting to Azure IoTCentral.</br>
-IoTCentral relies on Azure DPS (Device Provisioning Service) to manage connections.More details available <a href="https://docs.microsoft.com/en-us/azure/iot-central/core/concepts-connectivity">here.</a></span>
+IoTCentral relies on Azure DPS (Device Provisioning Service) to manage connections.
+Devices trying to connect using connection string could see unexpected behaviour.More details available <a href="https://docs.microsoft.com/en-us/azure/iot-central/core/concepts-connectivity">here.</a></span>
 
 ```
 > dps-keygen get-connection-string --help
