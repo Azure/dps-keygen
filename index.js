@@ -69,9 +69,14 @@ async function main() {
   }
 
   if (args['-mk'] && args['-di'] && !args['-si']) {
-    console.log('\nplease find the device key below.');
+    console.log('\nPlease find the device key below.');
     console.log(computeDrivedSymmetricKey(args['-mk'] + '', args['-di'] + ''), '\n');
   } else if (args['-si'] && args['-di']) {
+    // alert deprecation
+    console.log('\x1b[31m%s\x1b[0m', '\nDeprecated Feature:');
+    console.log('The connection string retrieval feature is deprecated.\nOn January 31st 2020 this feature will no longer be available in this tool.\nIoT Central best practice is to use DPS (Device Provisioning Service) for connecting devices.\nYou can find more details about connecting to IoT Central with DPS at:');
+    console.log('\x1b[34m%s\x1b[0m', 'https://docs.microsoft.com/en-us/azure/iot-central/core/concepts-connectivity\n\n');
+
     var key = args['-mk'] ? args['-mk'] : args['-dk'];
     var master = args['-mk'] ? true : false;
     var modelBlob = null;

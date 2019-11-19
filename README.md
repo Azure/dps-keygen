@@ -28,11 +28,6 @@ args:
 -mi:<modelId> : model id
 ```
 
-### Example
-
-```
-dps-keygen -di:dev1 -dk:devicekeyhere -si:scopeidhere
-```
 
 ### Calculating a device key from admin/master key
 
@@ -43,6 +38,14 @@ master/admin (primary/secondary) key at your presence.
 
 ```
 dps-keygen -mk:put_master_key_here -di:ie_dev1
+```
+
+### Retrieve hub connection string [<span style="color:red">deprecated</span>]
+The connection string retrieval feature is **deprecated**.
+On **January 31st 2020** this feature will no longer be available in this tool. IoT Central best practice is to use DPS (Device Provisioning Service) for connecting devices. You can find more details about connecting to IoT Central with DPS at [https://docs.microsoft.com/en-us/azure/iot-central/core/concepts-connectivity](https://docs.microsoft.com/en-us/azure/iot-central/core/concepts-connectivity)
+
+```
+dps-keygen -di:dev1 -dk:devicekeyhere -si:scopeidhere
 ```
 
 ### Contributing
