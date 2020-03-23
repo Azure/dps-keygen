@@ -42,7 +42,7 @@ dps-keygen -mk:put_master_key_here -di:ie_dev1
 
 ### Retrieve hub connection string [<span style="color:red">deprecated</span>]
 The connection string retrieval feature is **deprecated**.
-On **January 31st 2020** this feature will no longer be available in this tool. IoT Central best practice is to use DPS (Device Provisioning Service) for connecting devices. You can find more details about connecting to IoT Central with DPS at [https://docs.microsoft.com/en-us/azure/iot-central/core/concepts-connectivity](https://docs.microsoft.com/en-us/azure/iot-central/core/concepts-connectivity)
+On **January 31st 2020** this feature will no longer be available in this tool. IoT Central best practice is to use DPS (Device Provisioning Service) for connecting devices. You can find more details about connecting to IoT Central with DPS at [https://docs.microsoft.com/en-us/azure/iot-central/core/concepts-get-connected](https://docs.microsoft.com/en-us/azure/iot-central/core/concepts-get-connected)
 
 ```
 dps-keygen -di:dev1 -dk:devicekeyhere -si:scopeidhere
