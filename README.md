@@ -10,7 +10,7 @@ npm i -g dps-keygen
 
 ### Usage
 
-dps-keygen is an interfactive tool. Simply run and execute.
+`dps-keygen` is an interactive tool. Simply run and execute.
 
 ```
 dps-keygen <master_key> <registration_id>
