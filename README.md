@@ -2,6 +2,13 @@
 
 Helper tool to create device SAS key and/or connection string.
 
+### Warning
+
+DPS Keygen should no longer be used for Azure IoT Central.  Azure IoT Central uses the Device Provisioning Service (DPS) to route the device connection to the right Azure IoT hub instance.  Since IoT Central now supports multiple hubs for high availability and disaster recovery (HADR) it is essential that you do not hard code connection strings or IoT hub host names into your device code.  The ability to generate a connection string using this tool has been deprecated and the only functionality available in this tool is the ability to generate individual device keys from your IoT Central applications group SAS key.  For production devices we strongly recommend the use of X.509 certificates for the best device security.
+
+For more information on IoT Centrals high availability and disaster recover feature [click here](https://docs.microsoft.com/en-us/azure/iot-central/core/concepts-best-practices)
+
+
 ### Requirements
 
 node.js version 8+
