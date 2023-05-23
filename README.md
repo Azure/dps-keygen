@@ -1,3 +1,7 @@
+## This repository is archived
+
+This tool is no longer supported and will no longer be maintained.  This code should not be used as it circumvents the use of DPS and if connection strings are hard coded into your device firmware then over time your devices will likely not be able to connect to IoT Central.  Without DPS devices cannot connect to IoT Central applications that use multiple IoT Hubs for high availability and scaling.
+
 ## Azure IoT DPS Symmetric Key Generator
 
 Helper tool to create device SAS key and/or connection string.
